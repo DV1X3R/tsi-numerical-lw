@@ -2,10 +2,12 @@
 
 namespace Exercise1
 {
-    class LinearEquation
+    public class LinearEquation
     {
         private double[,] a;
         private double[] b;
+
+        public double[] x;
 
         public LinearEquation(double[,] a, double[] b)
         {
@@ -93,6 +95,8 @@ namespace Exercise1
                 }
                 Console.WriteLine(string.Format(" x{0} = {1}", i + 1, x[i]));
             }
+
+            this.x = x;
 
             watch.Stop();
             Console.WriteLine("\nTime elapsed (s): {0}", watch.Elapsed.TotalSeconds);
