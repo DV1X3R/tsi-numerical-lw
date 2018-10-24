@@ -89,9 +89,8 @@ namespace Exercise1
                 { // i < n
                     x[i] -= ((a[i, xi] * x[xi]) / a[i, i]);
                 }
+                Console.WriteLine(string.Format(" x{0} = {1}", i + 1, x[i]));
             }
-
-            Console.WriteLine(string.Format(" x1 = {0} \n x2 = {1} \n x3 = {2} ", x[0], x[1], x[2]));
         }
     }
 
@@ -99,7 +98,9 @@ namespace Exercise1
     {
         static void Main(string[] args)
         {
-            var eq = new LinearEquation(new double[,] { { 1, -2, 1 }, { 2, -5, -1 }, { -7, 0, 1 } }, new double[] { 2, -1, -2 });
+            //var eq = new LinearEquation(new double[,] { { 1, -2, 1 }, { 2, -5, -1 }, { -7, 0, 1 } }, new double[] { 2, -1, -2 });
+            //var eq = new LinearEquation(new double[,] { { 5, -5, -3, 4 }, { 1, -4, 6, -4 }, { -2, -5, 4, -5 } , { -3, -3, 5, -5 } }, new double[] { -11, -10, -12, 8 });
+            var eq = new LinearEquation(new double[,] { {0.78, 0.563 }, { 0.913, 0.659 } }, new double[] { 0.217, 0.254 });
             eq.Gauss();
 
             Console.ReadLine();
