@@ -9,8 +9,8 @@ namespace Exercise1
 
         public LinearEquation(double[,] a, double[] b)
         {
-            this.a = a;
-            this.b = b;
+            this.a = (double[,])a.Clone();
+            this.b = (double[])b.Clone();
         }
 
         private void ShowAB()
@@ -56,9 +56,11 @@ namespace Exercise1
 
         public void Gauss()
         {
-            double[,] a = this.a;
-            double[] b = this.b;
-            double[] x = new double[b.Length];
+            var a = (double[,])this.a.Clone();
+            var b = (double[])this.b.Clone();
+            var x = new double[b.Length];
+
+            var watch = System.Diagnostics.Stopwatch.StartNew();
 
             Console.WriteLine(" Source Matrix: ");
             ShowAB();
@@ -91,6 +93,11 @@ namespace Exercise1
                 }
                 Console.WriteLine(string.Format(" x{0} = {1}", i + 1, x[i]));
             }
+
+            watch.Stop();
+            Console.WriteLine("\nTime elapsed (s): {0}", watch.Elapsed.TotalSeconds);
+            Console.WriteLine("Time elapsed (ms): {0}", watch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("Time elapsed (ns): {0}", watch.Elapsed.TotalMilliseconds * 1000000);
         }
     }
 
@@ -98,9 +105,9 @@ namespace Exercise1
     {
         static void Main(string[] args)
         {
-            //var eq = new LinearEquation(new double[,] { { 1, -2, 1 }, { 2, -5, -1 }, { -7, 0, 1 } }, new double[] { 2, -1, -2 });
+            var eq = new LinearEquation(new double[,] { { 1, -2, 1 }, { 2, -5, -1 }, { -7, 0, 1 } }, new double[] { 2, -1, -2 });
             //var eq = new LinearEquation(new double[,] { { 5, -5, -3, 4 }, { 1, -4, 6, -4 }, { -2, -5, 4, -5 } , { -3, -3, 5, -5 } }, new double[] { -11, -10, -12, 8 });
-            var eq = new LinearEquation(new double[,] { {0.78, 0.563 }, { 0.913, 0.659 } }, new double[] { 0.217, 0.254 });
+            //var eq = new LinearEquation(new double[,] { {0.78, 0.563 }, { 0.913, 0.659 } }, new double[] { 0.217, 0.254 });
             eq.Gauss();
 
             Console.ReadLine();
