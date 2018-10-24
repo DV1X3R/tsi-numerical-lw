@@ -19,8 +19,8 @@ namespace Exercise1
             {
                 Console.Write("| ");
                 for (int col = 0; col < a.GetLength(1); col++)
-                    Console.Write(string.Format("{0,4} ", a[row, col]));
-                Console.WriteLine(string.Format("| {0,4} |", b[row]));
+                    Console.Write(string.Format("{0,5} ", Math.Round(a[row, col], 2)));
+                Console.WriteLine(string.Format("| {0,5} |", Math.Round(b[row], 2)));
             }
         }
 
@@ -63,9 +63,8 @@ namespace Exercise1
             Console.WriteLine(" Source Matrix: ");
             ShowAB();
 
-            SortLead(0); // Выбор ведущего элемента
             // 1. Прямой ход
-            for (int i = 1; i < a.GetLength(0); i++)
+            for (int i = 0; i < a.GetLength(0); i++)
             { // Текущая строка
                 SortLead(i); // Выбор ведущего элемента
                 for (int k = 0; k < i; k++)
