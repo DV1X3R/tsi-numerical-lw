@@ -23,6 +23,7 @@ namespace Exercise4_5
             var initYs = initXs.Select(x => Math.Sin(x * 5) * Math.Exp(x)).ToList();
             ShowBezier(initXs, initYs);
             ShowMNK(initXs, initYs);
+            ShowSource(initXs, initYs);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -31,6 +32,17 @@ namespace Exercise4_5
             var initYs = new List<double> { 10, -2, 0, -7, 7, 0, 0 };
             ShowBezier(initXs, initYs);
             ShowMNK(initXs, initYs);
+            ShowSource(initXs, initYs);
+        }
+
+        public void ShowSource(List<double> initXs, List<double> initYs)
+        {
+            chart1.Series[2].Points.Clear();
+            for (int i = 0; i < initXs.Count; i++)
+            {
+                chart1.Series[2].Points.AddXY(initXs[i], initYs[i]);
+            }
+
         }
 
         public void ShowBezier(List<double> initXs, List<double> initYs)
@@ -48,8 +60,6 @@ namespace Exercise4_5
             }
 
             chart1.Series[0].Points.Clear();
-            chart1.Series[0].Name = "Bezier";
-            chart1.Series[0].Color = Color.Black;
             for (int i = 0; i < resXs.Count; i++)
             {
                 chart1.Series[0].Points.AddXY(resXs[i], resYs[i]);
@@ -62,12 +72,9 @@ namespace Exercise4_5
             var resXs = new List<double>();
             var resYs = new List<double>();
 
-            // TODO: FILL RES
-            ProgramG.RunMainProgram(initXs, initYs, out resXs, out resYs, 6);
+            ProgramG.RunMainProgram(initXs, initYs, out resXs, out resYs, (int)numericUpDown1.Value);
           
             chart1.Series[1].Points.Clear();
-            chart1.Series[1].Name = "MNK";
-            chart1.Series[1].Color = Color.Pink;
             for (int i = 0; i < resXs.Count; i++)
             {
                 chart1.Series[1].Points.AddXY(resXs[i], resYs[i]);
