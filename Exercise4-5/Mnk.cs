@@ -40,7 +40,7 @@ namespace Exercise4_5
             var equation = new LinearEquation(a, b);
             equation.Gauss();
 
-            for (var z = initXs[0]; z < initXs[initXs.Count - 1]; z += 0.1)
+            for (var z = initXs.Min(); z < initXs.Max(); z += 0.1)
             {
                 resXs.Add(z);
                 var res = equation.x[0];
