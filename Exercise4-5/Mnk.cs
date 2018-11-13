@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Exercise1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,345 +41,80 @@ namespace Exercise4_5
             }
             Gaus.RightPart = d;
 
-
             resXs = new List<double>();
             resYs = new List<double>();
 
-            var result = Gaus.Solve();
-            if (result == 0)
+            var matrix2d = Gaus.To2D(Gaus.Matrix);
+            var equation = new LinearEquation(matrix2d, Gaus.RightPart);
+            equation.Gauss();
+
+            for (var z = initXs[0]; z < initXs[initXs.Count - 1]; z += 0.1)
             {
-                var w = 0.0;
-                for (var i = 0; i < exp; i++)
+                resXs.Add(z);
+                var res = equation.x[0];
+                for (var e = 0; e < exp; e++)
                 {
-                    #region calc func
-
-                    for (double z = initXs[0]; z < initXs[initXs.Count-1]; z += 0.1)
-                    {
-                        resXs.Add(z);
-                        var res = Gaus.Answ[0];
-                        for (var e = 0; e < exp - 2; e++)
-                        {
-                            res += Gaus.Answ[e + 1] * Math.Pow(z, e + 1);
-
-                        }
-                        resYs.Add(res);
-                    }
-
-                    
-                    #endregion
-                    //w += Math.Pow((res - points[i].y), 2);
+                    res += equation.x[e] * Math.Pow(z, e);
                 }
+                resYs.Add(res);
             }
-
-            
-           
-
 
         }
     }
 
     class Point
-
     {
-
         public double x { get; set; }
-
         public double y { get; set; }
-
     }
 
     class GausMethod
-
     {
-
         public uint RowCount;
-
         public uint ColumCount;
-
-        public double[][] Matrix { get; set; }
-
+        public double[][] Matrix { get; set; }  
         public double[] RightPart { get; set; }
-
         public double[] Answ { get; set; }
 
-
-
         public GausMethod(uint Row, uint Colum)
-
         {
-
             RightPart = new double[Row];
-
             Answ = new double[Row];
-
             Matrix = new double[Row][];
 
             for (int i = 0; i < Row; i++)
-
                 Matrix[i] = new double[Colum];
 
             RowCount = Row;
-
             ColumCount = Colum;
 
-
-
-            #region 0 mass
-
             for (int i = 0; i < Row; i++)
-
             {
-
                 Answ[i] = 0;
-
                 RightPart[i] = 0;
-
                 for (int j = 0; j < Colum; j++)
-
                     Matrix[i][j] = 0;
-
             }
-
-            #endregion
-
         }
 
-
-
-        private void SortRows(int SortIndex)
-
+        public T[,] To2D<T>(T[][] source)
         {
-
-
-
-            double MaxElement = Matrix[SortIndex][SortIndex];
-
-            int MaxElementIndex = SortIndex;
-
-            for (int i = SortIndex + 1; i < RowCount; i++)
-
+            try
             {
+                int FirstDim = source.Length;
+                int SecondDim = source.GroupBy(row => row.Length).Single().Key; // throws InvalidOperationException if source is not rectangular
 
-                if (Matrix[i][SortIndex] > MaxElement)
+                var result = new T[FirstDim, SecondDim];
+                for (int i = 0; i < FirstDim; ++i)
+                    for (int j = 0; j < SecondDim; ++j)
+                        result[i, j] = source[i][j];
 
-                {
-
-                    MaxElement = Matrix[i][SortIndex];
-
-                    MaxElementIndex = i;
-
-                }
-
+                return result;
             }
-
-
-
-            #region Sort -> max to up
-
-            if (MaxElementIndex > SortIndex)
-
+            catch (InvalidOperationException)
             {
-
-                double Temp;
-
-
-
-                Temp = RightPart[MaxElementIndex];
-
-                RightPart[MaxElementIndex] = RightPart[SortIndex];
-
-                RightPart[SortIndex] = Temp;
-
-
-
-                for (int i = 0; i < ColumCount; i++)
-
-                {
-
-                    Temp = Matrix[MaxElementIndex][i];
-
-                    Matrix[MaxElementIndex][i] = Matrix[SortIndex][i];
-
-                    Matrix[SortIndex][i] = Temp;
-
-                }
-
+                throw new InvalidOperationException("The given jagged array is not rectangular.");
             }
-
-            #endregion
-
-        }
-
-
-
-        public int Solve()
-
-        {
-
-            if (RowCount != ColumCount)
-
-            {
-
-                Console.WriteLine("No solution");
-
-                return 1;
-
-            }
-
-
-
-            for (int i = 0; i < RowCount - 1; i++)
-
-            {
-
-                SortRows(i);
-
-                for (int j = i + 1; j < RowCount; j++)
-
-                {
-
-                    if (Matrix[i][i] != 0)
-
-                    {
-
-                        double MultElement = Matrix[j][i] / Matrix[i][i];
-
-                        for (int k = i; k < ColumCount; k++)
-
-                            Matrix[j][k] -= Matrix[i][k] * MultElement;
-
-                        RightPart[j] -= RightPart[i] * MultElement;
-
-                    }
-
-                }
-
-            }
-
-
-
-            Console.WriteLine(this.ToString());
-
-
-
-            for (int i = (int)(RowCount - 1); i >= 0; i--)
-
-            {
-
-                Answ[i] = RightPart[i];
-
-
-
-                for (int j = (int)(RowCount - 1); j > i; j--)
-
-                    Answ[i] -= Matrix[i][j] * Answ[j];
-
-
-
-                if (Matrix[i][i] == 0)
-
-                    if (RightPart[i] == 0)
-
-                    {
-
-                        Console.WriteLine("Many answers");
-
-                        return 2;
-
-                    }
-
-                    else
-
-                    {
-
-                        Console.WriteLine("No solution");
-
-                        return 1;
-
-                    }
-
-
-
-                Answ[i] /= Matrix[i][i];
-
-
-
-            }
-
-            return 0;
-
-        }
-
-
-
-        public void fillMatrix(int[] mat)
-
-        {
-
-            if (mat.Length != RowCount * ColumCount)
-
-                Console.WriteLine("Incorrect matrix");
-
-            else
-
-            {
-
-                var ii = 0;
-
-                for (var i = 0; i < RowCount; i++)
-
-                {
-
-                    for (var j = 0; j < ColumCount; j++, ii++)
-
-                    {
-
-                        Matrix[i][j] = mat[ii];
-
-                    }
-
-                }
-
-            }
-
-        }
-
-
-
-        public override String ToString()
-
-        {
-
-            String S = "";
-
-            for (int i = 0; i < RowCount; i++)
-
-            {
-
-                S += "\r\n|";
-
-                for (int j = 0; j < ColumCount; j++)
-
-                {
-
-                    S += Matrix[i][j].ToString();
-
-                    if (j + 1 != ColumCount)
-
-                        S += "\t";
-
-                }
-
-
-
-                // S += "\t" + Answ[i].ToString("F08");
-
-                S += " | x  =  | " + RightPart[i].ToString() + " |";
-
-            }
-
-            return S;
-
         }
 
     }

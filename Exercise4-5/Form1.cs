@@ -48,16 +48,13 @@ namespace Exercise4_5
             }
 
             chart1.Series[0].Points.Clear();
+            chart1.Series[0].Name = "Bezier";
+            chart1.Series[0].Color = Color.Black;
             for (int i = 0; i < resXs.Count; i++)
             {
                 chart1.Series[0].Points.AddXY(resXs[i], resYs[i]);
             }
 
-            //chart1.Series[1].Points.Clear();
-            //for (int i = 0; i < initXs.Count; i++)
-            //{
-            //    chart1.Series[1].Points.AddXY(initXs[i], initYs[i]);
-            //}
         }
 
         public void ShowMNK(List<double> initXs, List<double> initYs)
@@ -66,9 +63,11 @@ namespace Exercise4_5
             var resYs = new List<double>();
 
             // TODO: FILL RES
-            ProgramG.RunMainProgram(initXs, initYs, out resXs, out resYs, 8);
+            ProgramG.RunMainProgram(initXs, initYs, out resXs, out resYs, 6);
           
             chart1.Series[1].Points.Clear();
+            chart1.Series[1].Name = "MNK";
+            chart1.Series[1].Color = Color.Pink;
             for (int i = 0; i < resXs.Count; i++)
             {
                 chart1.Series[1].Points.AddXY(resXs[i], resYs[i]);
