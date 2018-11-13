@@ -50,7 +50,7 @@ namespace Exercise4_5
             var resXs = new List<double>();
             var resYs = new List<double>();
 
-            for (double i = 0; i < 1; i += (1.0F / 30))
+            for (double i = 0; i <= 1; i += 0.01F)
             {
                 var resX = Bezier.Approx(initXs.Count - 1, i, initXs);
                 var resY = Bezier.Approx(initYs.Count - 1, i, initYs);
@@ -72,7 +72,7 @@ namespace Exercise4_5
             var resXs = new List<double>();
             var resYs = new List<double>();
 
-            ProgramG.RunMainProgram(initXs, initYs, out resXs, out resYs, (int)numericUpDown1.Value);
+            ProgramG.RunMainProgram(initXs, initYs, out resXs, out resYs, (int)numericUpDown1.Value + 1);
           
             chart1.Series[1].Points.Clear();
             for (int i = 0; i < resXs.Count; i++)

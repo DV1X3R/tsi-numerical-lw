@@ -37,13 +37,15 @@ namespace Exercise4_5
             resXs = new List<double>();
             resYs = new List<double>();
 
+  
+
             var equation = new LinearEquation(a, b);
             equation.Gauss();
 
-            for (var z = initXs[0]; z < initXs[initXs.Count - 1]; z += 0.1)
+            for (var z = initXs.Min(); z <= initXs.Max(); z += 0.01F)
             {
                 resXs.Add(z);
-                var res = equation.x[0];
+                var res = 0.0;//equation.x[0];
                 for (var e = 0; e < exp; e++)
                 {
                     res += equation.x[e] * Math.Pow(z, e);
