@@ -58,8 +58,6 @@ namespace Exercise1
 
         public void Gauss()
         {
-            var a = (double[,])this.a.Clone();
-            var b = (double[])this.b.Clone();
             var x = new double[b.Length];
 
             var watch = System.Diagnostics.Stopwatch.StartNew();
