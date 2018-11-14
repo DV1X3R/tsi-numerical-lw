@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 
 namespace Exercise4_5
 {
-    class ProgramG
+    class Mnk
     {
+        public LinearEquation eq { get; private set; }
+        public double exp { get; private set; }
 
-        public static void RunMainProgram(List<double> initXs, List<double> initYs, out List<double> resXs, out List<double> resYs, int exp)
+        public void Recalculate(List<double> initXs, List<double> initYs, int exp)
         {
             var a = new double[exp, exp];
             var b = new double[exp];
+            this.exp = exp;
 
             for (var j = 0; j < exp; j++)
             {
@@ -34,24 +37,18 @@ namespace Exercise4_5
                 }
             }
 
-            resXs = new List<double>();
-            resYs = new List<double>();
+            eq = new LinearEquation(a, b);
+            eq.Gauss();
+        }
 
-  
-
-            var equation = new LinearEquation(a, b);
-            equation.Gauss();
-
-            for (var z = initXs.Min(); z <= initXs.Max(); z += 0.01F)
+        public double GetY(double x)
+        {
+            double res = 0.0;
+            for (int e = 0; e < exp; e++)
             {
-                resXs.Add(z);
-                var res = 0.0;//equation.x[0];
-                for (var e = 0; e < exp; e++)
-                {
-                    res += equation.x[e] * Math.Pow(z, e);
-                }
-                resYs.Add(res);
+                res += eq.x[e] * Math.Pow(x, e);
             }
+            return res;
         }
     }
 }

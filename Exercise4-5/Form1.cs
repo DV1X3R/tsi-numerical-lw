@@ -17,25 +17,37 @@ namespace Exercise4_5
             InitializeComponent();   
         }
 
+        List<double> initXs, initYs;
+        Mnk mnk = new Mnk();
+
         private void button1_Click(object sender, EventArgs e)
         {   
-            var initXs = new List<double> { -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2 };
-            var initYs = initXs.Select(x => Math.Sin(x * 5) * Math.Exp(x)).ToList();
-            ShowBezier(initXs, initYs);
-            ShowMNK(initXs, initYs);
-            ShowSource(initXs, initYs);
+            initXs = new List<double> { -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2 };
+            initYs = initXs.Select(x => Math.Sin(x * 5) * Math.Exp(x)).ToList();
+            mnk.Recalculate(initXs, initYs, (int)numericUpDown1.Value + 1);
+            ShowSource();
+            ShowBezier();
+            ShowMNK();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var initXs = new List<double> { -3.2, -2.1, 0.4, 0.7, 2, 2.5, 2.777 };
-            var initYs = new List<double> { 10, -2, 0, -7, 7, 0, 0 };
-            ShowBezier(initXs, initYs);
-            ShowMNK(initXs, initYs);
-            ShowSource(initXs, initYs);
+            initXs = new List<double> { -3.2, -2.1, 0.4, 0.7, 2, 2.5, 2.777 };
+            initYs = new List<double> { 10, -2, 0, -7, 7, 0, 0 };
+            mnk.Recalculate(initXs, initYs, (int)numericUpDown1.Value + 1);
+            ShowSource();
+            ShowBezier();
+            ShowMNK();
         }
 
-        public void ShowSource(List<double> initXs, List<double> initYs)
+        private void maskedTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            double x;
+            if (Double.TryParse(maskedTextBox1.Text, out x))
+                maskedTextBox2.Text = mnk.GetY(x).ToString();
+        }
+
+        public void ShowSource()
         {
             chart1.Series[2].Points.Clear();
             for (int i = 0; i < initXs.Count; i++)
@@ -45,7 +57,7 @@ namespace Exercise4_5
 
         }
 
-        public void ShowBezier(List<double> initXs, List<double> initYs)
+        public void ShowBezier()
         {
             var resXs = new List<double>();
             var resYs = new List<double>();
@@ -67,17 +79,18 @@ namespace Exercise4_5
 
         }
 
-        public void ShowMNK(List<double> initXs, List<double> initYs)
+        public void ShowMNK()
         {
-            var resXs = new List<double>();
-            var resYs = new List<double>();
-
-            ProgramG.RunMainProgram(initXs, initYs, out resXs, out resYs, (int)numericUpDown1.Value + 1);
-          
             chart1.Series[1].Points.Clear();
-            for (int i = 0; i < resXs.Count; i++)
+            for(double x = initXs.Min(); x <= initXs.Max(); x += 0.01F)
             {
-                chart1.Series[1].Points.AddXY(resXs[i], resYs[i]);
+                chart1.Series[1].Points.AddXY(x, mnk.GetY(x));
+            }
+
+            listBox1.Items.Clear();
+            for(int i = 0; i < mnk.eq.x.Length; i++)
+            {
+                listBox1.Items.Add(string.Format("a{0} = {1}", i + 1, mnk.eq.x[i]));
             }
         }
 
