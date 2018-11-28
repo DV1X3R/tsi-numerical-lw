@@ -10,22 +10,31 @@ namespace Exercise6_7
     {
         public static double Calc(double a, double b, double eps)
         {
-            double x_next = 0;
-            double tmp;
-            var lich = 0;
+            double c = 0, fc, fa = Program.f(a), fb = Program.f(b);
+            int lich = 0;
+
+            if (Math.Abs(a) < eps || Math.Abs(b) < eps)
+            {
+                return 0;
+            };
+
+            var delta = Math.Abs(b - a);
+
             do
             {
+                c = b - Program.f(b) * (b - a) / (Program.f(b) - Program.f(a));
+
+                fc = Convert.ToDouble(Program.f(c));
                 lich++;
-                tmp = x_next;
-                x_next = b - Program.f(b) * (a - b) / (Program.f(a) - Program.f(b));
-                a = b;
-                b = tmp;
+                if (Math.Abs(fc) < eps) break;
+                if (fa * fc < 0) b = c; else a = c;
+                Console.WriteLine("N = " + lich + "   exp = " + Math.Abs(a - b) + "   x = " + c);
 
-                Console.WriteLine("N = " + lich + "   exp = " + Math.Abs(x_next - b) + "   x = " + x_next);
-
-            } while (Math.Abs(x_next - b) > eps);
-
-            return x_next;
+                delta = Math.Abs(b - a);
+            }
+            while (delta > eps);
+            Console.WriteLine("x={0}, ={1}!", c, lich);
+            return c;
         }
     }
 }
