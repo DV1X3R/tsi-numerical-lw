@@ -9,6 +9,7 @@ namespace Exercise8_9
     class Euler
     {
         public List<double[]> Result = new List<double[]>();
+        public List<double[]> ResultAnalytical = new List<double[]>();
 
         public double Function(double x) => 0.8 * x - 0.15 * Math.Pow(x, 2);
         public double FunctionA(double x) => 0.8 * 1 * Math.Exp(0.8 * x) / (0.8 + 0.15 * 1 * (Math.Exp(0.8 * x) - 1));
@@ -65,7 +66,7 @@ namespace Exercise8_9
                 result.Add(new double[] { t, y });
             } while (t <= maxT);
 
-            Result = result;
+            ResultAnalytical = result;
         }
     }
 }

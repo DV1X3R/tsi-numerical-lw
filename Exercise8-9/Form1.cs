@@ -21,6 +21,40 @@ namespace Exercise8_9
         {
             var euler = new Euler();
 
+            euler.Analytical(0, 10, 0.05);
+            euler.EulerSimple(0, 10, 0.05, 1);
+            chart1.Series[0].Points.Clear();
+            for (int i = 0; i < euler.Result.Count; i++)
+            {
+                chart1.Series[0].Points.AddXY(euler.Result[i][0], euler.ResultAnalytical[i][1] - euler.Result[i][1]);
+            }
+
+            euler.Analytical(0, 10, 0.001);
+            euler.EulerSimple(0, 10, 0.001, 1);
+            chart1.Series[1].Points.Clear();
+            for (int i = 0; i < euler.Result.Count; i++)
+            {
+                chart1.Series[1].Points.AddXY(euler.Result[i][0], euler.ResultAnalytical[i][1] - euler.Result[i][1]);
+            }
+
+            euler.Analytical(0, 10, 0.05);
+            euler.EulerCauchy(0, 10, 0.05, 1);
+            chart1.Series[2].Points.Clear();
+            for (int i = 0; i < euler.Result.Count; i++)
+            {
+                chart1.Series[2].Points.AddXY(euler.Result[i][0], euler.ResultAnalytical[i][1] - euler.Result[i][1]);
+            }
+
+            euler.Analytical(0, 10, 0.01);
+            euler.EulerCauchy(0, 10, 0.01, 1);
+            chart1.Series[3].Points.Clear();
+            for (int i = 0; i < euler.Result.Count; i++)
+            {
+                chart1.Series[3].Points.AddXY(euler.Result[i][0], euler.ResultAnalytical[i][1] - euler.Result[i][1]);
+            }
+
+
+            /*
             euler.EulerSimple(0, 10, 0.05, 1);
             chart1.Series[0].Points.Clear();
             for (int i = 0; i < euler.Result.Count; i++)
@@ -28,21 +62,21 @@ namespace Exercise8_9
                 chart1.Series[0].Points.AddXY(euler.Result[i][0], euler.Result[i][1]);
             }
 
-            euler.EulerCauchy(0, 10, 0.05, 1);
+            euler.EulerSimple(0, 10, 0.01, 1);
             chart1.Series[1].Points.Clear();
             for (int i = 0; i < euler.Result.Count; i++)
             {
                 chart1.Series[1].Points.AddXY(euler.Result[i][0], euler.Result[i][1]);
             }
 
-            euler.EulerSimple(0, 10, 0.001, 1);
+            euler.EulerCauchy(0, 10, 0.05, 1);
             chart1.Series[2].Points.Clear();
             for (int i = 0; i < euler.Result.Count; i++)
             {
                 chart1.Series[2].Points.AddXY(euler.Result[i][0], euler.Result[i][1]);
             }
 
-            euler.EulerCauchy(0, 10, 0.001, 1);
+            euler.EulerCauchy(0, 10, 0.01, 1);
             chart1.Series[3].Points.Clear();
             for (int i = 0; i < euler.Result.Count; i++)
             {
@@ -55,7 +89,7 @@ namespace Exercise8_9
             {
                 chart1.Series[4].Points.AddXY(euler.Result[i][0], euler.Result[i][1]);
             }
-
+            */
         }
     }
 }
