@@ -30,9 +30,17 @@ namespace Exercise8_9
             do
             {
                 t += h;
+
+                // Euler
                 yEuler = yEuler + (h * Function(yEuler));
-                yEulerCauchy = yEulerCauchy + (h / 2) * (Function(yEulerCauchy) + Function(yEuler));
                 ResultEuler.Add(new double[] { t, yEuler });
+
+                // EulerCauchy
+                var yLocal = yEulerCauchy;
+                for (int i = 0; i < 10; i++)
+                {  
+                    yEulerCauchy = yLocal + (h / 2) * (Function(yLocal) + Function(yLocal + (h * Function(yEulerCauchy))));
+                }
                 ResultEulerCauchy.Add(new double[] { t, yEulerCauchy });
 
             } while (t <= maxT);
