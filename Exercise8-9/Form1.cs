@@ -25,30 +25,49 @@ namespace Exercise8_9
             euler.EulerCauchy(0, 10, 0.05, 1);
 
             chart1.Series[0].Points.Clear();
+            double maxErrorEuler = 0;
             for (int i = 0; i < euler.ResultEuler.Count; i++)
             {
                 chart1.Series[0].Points.AddXY(euler.ResultEuler[i][0], euler.ResultAnalytical[i][1] - euler.ResultEuler[i][1]);
+                if (maxErrorEuler < Math.Abs(euler.ResultAnalytical[i][1] - euler.ResultEuler[i][1]))
+                    maxErrorEuler = Math.Abs(euler.ResultAnalytical[i][1] - euler.ResultEuler[i][1]);
             }
+            label1.Text = maxErrorEuler.ToString();
+
             chart1.Series[1].Points.Clear();
+
+            maxErrorEuler = 0;
             for (int i = 0; i < euler.ResultEulerCauchy.Count; i++)
             {
                 chart1.Series[1].Points.AddXY(euler.ResultEulerCauchy[i][0], euler.ResultAnalytical[i][1] - euler.ResultEulerCauchy[i][1]);
+                if (maxErrorEuler < Math.Abs(euler.ResultAnalytical[i][1] - euler.ResultEulerCauchy[i][1]))
+                    maxErrorEuler = Math.Abs(euler.ResultAnalytical[i][1] - euler.ResultEulerCauchy[i][1]);
+
             }
-           
+            label2.Text = maxErrorEuler.ToString();
+            //label3.Text = chart1.Series[1].Points.FindMinByValue("Y").YValues.ToString();
             euler.Analytical(0, 10, 0.01);
             euler.EulerCauchy(0, 10, 0.01, 1);
             
             chart1.Series[2].Points.Clear();
+            maxErrorEuler = 0;
             for (int i = 0; i < euler.ResultEuler.Count; i++)
             {
                 chart1.Series[2].Points.AddXY(euler.ResultEuler[i][0], euler.ResultAnalytical[i][1] - euler.ResultEuler[i][1]);
+                if (maxErrorEuler < Math.Abs(euler.ResultAnalytical[i][1] - euler.ResultEuler[i][1]))
+                    maxErrorEuler = Math.Abs(euler.ResultAnalytical[i][1] - euler.ResultEuler[i][1]);
             }
-            
+            label3.Text = maxErrorEuler.ToString();
+
             chart1.Series[3].Points.Clear();
+            maxErrorEuler = 0;
             for (int i = 0; i < euler.ResultEulerCauchy.Count; i++)
             {
                 chart1.Series[3].Points.AddXY(euler.ResultEulerCauchy[i][0], euler.ResultAnalytical[i][1] - euler.ResultEulerCauchy[i][1]);
+                if (maxErrorEuler < Math.Abs(euler.ResultAnalytical[i][1] - euler.ResultEulerCauchy[i][1]))
+                    maxErrorEuler = Math.Abs(euler.ResultAnalytical[i][1] - euler.ResultEulerCauchy[i][1]);
             }
+            label4.Text = maxErrorEuler.ToString();
         }
 
         private void button2_Click(object sender, EventArgs e)
